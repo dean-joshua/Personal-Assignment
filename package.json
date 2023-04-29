@@ -1,6 +1,9 @@
 {
   "name": "personal-assignment",
   "version": "1.0.0",
+  "engines": {
+    "node": "16.15.1"
+  },
   "description": "This is my first assignment in the Web Services Course",
   "main": "server.js",
   "scripts": {

@@ -1,0 +1,20 @@
+// LOCALHOST 
+
+### 
+GET http://localhost:3000/contacts 
+### 
+GET http://localhost:3000/contacts/6449a241ccd4164668e7525f
+### 
+GET http://localhost:3000/contacts/6449a330ccd4164668e75261 
+### 
+GET http://localhost:3000/contacts/6449a341ccd4164668e75263
+
+// PRODUCTION Deploy 
+###
+GET https://personal-assignment-service.onrender.com/contacts
+###
+GET https://personal-assignment-service.onrender.com/contacts/6449a241ccd4164668e7525f
+###
+GET https://personal-assignment-service.onrender.com/contacts/6449a330ccd4164668e75261
+###
+GET https://personal-assignment-service.onrender.com/contacts/6449a341ccd4164668e75263
