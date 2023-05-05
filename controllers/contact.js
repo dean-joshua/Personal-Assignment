@@ -97,7 +97,7 @@ async function removeContact(req, res) {
     const response = await collection.deleteOne({ _id: contactId }, true);
     console.log(response);
     if (response.deletedCount > 0) {
-      res.status(204).send();
+      res.status(200).send();
     } else {
       throw new Error('Document was not able to be deleted');
     }
