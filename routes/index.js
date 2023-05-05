@@ -1,6 +1,5 @@
-const routes = require('express').Router();
-const name = require('../controllers/');
+const router = require('express').Router();
 
-routes.get('/', name.displayName);
+router.use('/contacts', require('./contact'));
 
-module.exports = routes;
+module.exports = router;

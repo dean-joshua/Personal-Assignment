@@ -1,20 +1,45 @@
-// LOCALHOST 
+// LOCALHOST
 
-### 
-GET http://localhost:3000/contacts 
-### 
+### GET all
+GET http://localhost:3000/contacts
+### GET contact by id
 GET http://localhost:3000/contacts/6449a241ccd4164668e7525f
-### 
-GET http://localhost:3000/contacts/6449a330ccd4164668e75261 
-### 
-GET http://localhost:3000/contacts/6449a341ccd4164668e75263
+### POST new contact
+POST http://localhost:3000/contacts/ HTTP/1.1
+content-type: application/json
 
-// PRODUCTION Deploy 
-###
+{
+  "firstName": "Scooby", "lastName": "Doolittle", "email": "doolittleS@gmail.com", "favoriteColor": "brown", "birthday": "08/21/2001"
+}
+### Update contact by id
+PUT http://localhost:3000/contacts/645482e0a616389f12fa8478 HTTP/1.1
+content-type: application/json
+
+{
+  "firstName": "Tucan", "lastName": "Salam", "email": "salamt@gmail.com", "favoriteColor": "green", "birthday": "08/21/3333"
+}
+### Delete contact by id
+DELETE http://localhost:3000/contacts/645482e0a616389f12fa8478 HTTP/1.1
+
+
+// PRODUCTION Deploy
+### GET all
 GET https://personal-assignment-service.onrender.com/contacts
-###
+### GET contact by id
 GET https://personal-assignment-service.onrender.com/contacts/6449a241ccd4164668e7525f
-###
-GET https://personal-assignment-service.onrender.com/contacts/6449a330ccd4164668e75261
-###
-GET https://personal-assignment-service.onrender.com/contacts/6449a341ccd4164668e75263
+### POST new contact
+POST https://personal-assignment-service.onrender.com/contacts/ HTTP/1.1
+content-type: application/json
+
+{
+  "firstName": "Scooby", "lastName": "Doolittle", "email": "doolittleS@gmail.com", "favoriteColor": "brown", "birthday": "08/21/2001"
+}
+### UPDATE contact by id
+PUT https://personal-assignment-service.onrender.com/contacts/645482e0a616389f12fa8478 HTTP/1.1
+content-type: application/json
+
+{
+  "firstName": "Tucan", "lastName": "SamIam", "email": "samIamt@gmail.com", "favoriteColor": "green", "birthday": "08/21/3333"
+}
+### DELETE contact by id
+DELETE https://personal-assignment-service.onrender.com/contacts/645482e0a616389f12fa8478 HTTP/1.1
