@@ -12,8 +12,8 @@ app
   .use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     next();
-  })
-  .use('/', require('./routes'));
+  });
+//.use('/', require('./routes'));
 //app.use('/contacts', require('./routes/contact'));
 
 app.listen(process.env.port || 3000);
