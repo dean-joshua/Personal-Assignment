@@ -1,14 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const swaggerAutogen = require('swagger-autogen')();
-const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger.json');
+//const swaggerAutogen = require('swagger-autogen')();
+//const swaggerUi = require('swagger-ui-express');
+//const swaggerDocument = require('./swagger.json');
 
 app.use(bodyParser.json());
 app
   .use('/', require('./routes'))
-  .use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+  //.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
   .use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     next();
