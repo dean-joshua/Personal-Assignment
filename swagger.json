@@ -13,6 +13,7 @@
   "paths": {
     "/contacts/": {
       "get": {
+        "tags": ["Contacts"],
         "description": "",
         "parameters": [],
         "responses": {
@@ -25,6 +26,7 @@
         }
       },
       "post": {
+        "tags": ["Contacts"],
         "description": "",
         "parameters": [
           {
@@ -64,6 +66,7 @@
     },
     "/contacts/{id}": {
       "get": {
+        "tags": ["Contacts"],
         "description": "",
         "parameters": [
           {
@@ -86,6 +89,7 @@
         }
       },
       "put": {
+        "tags": ["Contacts"],
         "description": "",
         "parameters": [
           {
@@ -129,6 +133,7 @@
         }
       },
       "delete": {
+        "tags": ["Contacts"],
         "description": "",
         "parameters": [
           {
