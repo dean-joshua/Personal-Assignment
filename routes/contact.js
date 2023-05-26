@@ -1,17 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const {
-  getContacts,
+  getAll,
   getContact,
-  addContact,
-  updateContact,
-  removeContact,
+  create,
+  update,
+  remove,
 } = require('../controllers/contact');
 
-router.get('/', getContacts);
-router.get('/:id', getContact);
-router.post('/', addContact);
-router.put('/:id', updateContact);
-router.delete('/:id', removeContact);
+router.get('/', getAll);
+router.get('/:firstName', getContact);
+router.post('/', create);
+router.put('/:id', update);
+router.delete('/:id', remove);
 
 module.exports = router;

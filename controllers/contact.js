@@ -1,116 +1,135 @@
-const client = require('../db/connection.js');
-const { ObjectId } = require('mongodb');
+const db = require('../models');
+const contact = db.contact;
 
-// READ all documents
-async function getContacts(req, res) {
+async function getAll(req, res) {
   try {
-    await client.connect();
-    const db = client.db('contacts');
-    const collection = db.collection('contacts');
-    const contacts = await collection.find().toArray();
-    res.status(200).send(contacts);
+    contact
+      .find({})
+      .then((data) => {
+        res.status(200).send(data);
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message:
+            err.message || 'Some error occurred while retrieving contacts.',
+        });
+      });
   } catch (err) {
-    console.error(err);
-    res.status(500).send('Error retrieving all contacts');
+    res.status(500).json(err);
   }
 }
 
-// READ One Document by Id
 async function getContact(req, res) {
   try {
-    await client.connect();
-    const db = client.db('contacts');
-    const contactId = new ObjectId(req.params.id);
-    const collection = db.collection('contacts');
-    const contact = await collection.findOne({ _id: contactId });
-    if (!contact) {
-      res.status(404).send('Contact not found');
-      return;
-    }
-    res.json(contact);
+    const firstName = req.params.firstName;
+    contact
+      .find({ firstName: firstName })
+      .then((data) => {
+        res.status(200).send(data);
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message:
+            err.message || 'Some error occurred while retrieving contacts.',
+        });
+      });
   } catch (err) {
-    console.error(err);
-    res.status(500).send('Error retrieving contact by Id');
+    res.status(500).json(err);
   }
 }
 
-// Create a new document
-async function addContact(req, res) {
+async function create(req, res) {
   try {
-    await client.connect();
-    const db = client.db('contacts');
-    const collection = db.collection('contacts');
-    const newDocument = {
-      //Create a new json object
+    const newContact = new contact({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       email: req.body.email,
       favoriteColor: req.body.favoriteColor,
       birthday: req.body.birthday,
-    };
-    const response = await collection.insertOne(newDocument); // insert the new object into the collection
-    res.status(201).json(response);
+    });
+
+    newContact
+      .save()
+      .then((data) => {
+        res.status(201).json(data);
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message: err.message || 'Error creating a new contact',
+        });
+      });
   } catch (err) {
     console.error(err);
     res.status(500).json('Error creating a new contact');
   }
 }
 
-// UPDATE an existing document
-async function updateContact(req, res) {
+async function update(req, res) {
   try {
-    await client.connect();
-    const db = client.db('contacts');
-    const contactId = new ObjectId(req.params.id);
-    const collection = db.collection('contacts');
-    const newDocument = {
-      //Create a new json object
+    const contactId = req.params.id;
+    console.log(`This is the id being searched ${contactId}`);
+    const updatedContactData = {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       email: req.body.email,
       favoriteColor: req.body.favoriteColor,
       birthday: req.body.birthday,
     };
-    const response = await collection.replaceOne(
-      { _id: contactId },
-      newDocument
-    );
-    console.log(response);
-    if (response.modifiedCount > 0) {
-      res.status(204).send();
-    } else {
-      throw new Error('Document was not able to be updated');
-    }
+
+    contact
+      .findOne({ _id: contactId })
+      .then((contact) => {
+        if (!contact) {
+          res.status(404).send('Contact not found');
+          return;
+        }
+
+        // Update the contact data
+        contact.firstName = updatedContactData.firstName;
+        contact.lastName = updatedContactData.lastName;
+        contact.email = updatedContactData.email;
+        contact.favoriteColor = updatedContactData.favoriteColor;
+        contact.birthday = updatedContactData.birthday;
+
+        // Save the updated contact
+        contact
+          .save()
+          .then((updatedContact) => {
+            res.status(200).json(updatedContact);
+          })
+          .catch((err) => {
+            res.status(500).send({
+              message: err.message || 'Error updating a contact',
+            });
+          });
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message: err.message || 'Error finding a contact',
+        });
+      });
   } catch (err) {
     console.error(err);
     res.status(500).json('Error updating a contact');
   }
 }
 
-// DELETE an existing document
-async function removeContact(req, res) {
+async function remove(req, res) {
   try {
-    await client.connect();
-    const db = client.db('contacts');
-    const contactId = new ObjectId(req.params.id);
-    const collection = db.collection('contacts');
-    const response = await collection.deleteOne({ _id: contactId }, true);
-    console.log(response);
-    if (response.deletedCount > 0) {
-      res.status(200).send();
-    } else {
-      throw new Error('Document was not able to be deleted');
+    const deletedContact = await contact.findByIdAndRemove(req.params.id);
+    if (!deletedContact) {
+      return res.status(404).json({ message: 'Contact not found' });
     }
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Error deleting contact');
+    res.status(200).json({ message: 'Contact deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error deleting contact', error });
   }
 }
 
 module.exports = {
-  getContacts,
+  getAll,
   getContact,
-  addContact,
-  updateContact,
-  removeContact,
+  create,
+  update,
+  remove,
 };

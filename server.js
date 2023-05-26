@@ -1,20 +1,31 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const app = express();
-//const swaggerAutogen = require('swagger-autogen')();
-//const swaggerUi = require('swagger-ui-express');
-//const swaggerDocument = require('./swagger.json');
 
-app.use(bodyParser.json());
+const port = process.env.PORT || 3000;
+const app = express();
+
 app
-  .use('/', require('./routes'))
-  //.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+  .use(bodyParser.json())
   .use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     next();
-  });
-//.use('/', require('./routes'));
-//app.use('/contacts', require('./routes/contact'));
+  })
+  .use('/', require('./routes'));
 
-app.listen(process.env.port || 3000);
-console.log('Web Server is listening at port ' + (process.env.port || 3000));
+// This is our call to the mongoose connection
+// We connect to mongodb through mongoose and console.log the connection message
+const db = require('./models');
+db.mongoose
+  .connect(db.url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    app.listen(port, () => {
+      console.log(`DB Connected and server running on ${port}.`);
+    });
+  })
+  .catch((err) => {
+    console.log('Cannot connect to the database!', err);
+    process.exit();
+  });

@@ -19,6 +19,7 @@ Below are some of the things I would like to keep note of in the future
 9. [MongoDb replaceOne()](#mongodb-replaceone)
 10. [MongoDb deleteOne()](#mongodb-deleteone)
 11. [Adding API Documentation with Swagger](#adding-documentation-with-swagger)
+12. [Adding Mongoose, Data Validation, and Error Handling](#adding-mongoose)
 
 ---
 
@@ -110,4 +111,21 @@ const app = express();` This is pretty basic and sets up the express application
 - We are going to need some public documentation for our API and a place to test our routes. For this, we will be using swagger.
 - There are some real neat packages that we can use to do this quickly. These packages are [swagger-autogen](https://www.npmjs.com/package/swagger-autogen?activeTab=readme#usage-basic) and [swagger-ui-express](https://www.npmjs.com/package/swagger-ui-express)
 - To install and utilize the packages we will:
-  1. To be completed
+  1. Run the commands `npm install --save-dev swagger-autogen` and `npm install --save swagger-ui-express`
+  2. Create a swagger.js file in the root of your directory. Fill it with the quickstart code found on their documentation page.
+  3. Make sure the quickstart code reflects your project. Things like the host and output file name should match what you need.
+  4. Create a swagger.js file in your routes directory. Make sure that you import swagger in it. Set it up for /api-docs.
+  5. You will need a router.use and router.get call in that file.
+  6. Connect your swagger.js route to your index.js route carefully.
+  7. Once you are sure your routes are set up and your swagger.js file in your root directory is configured, run the command `node swagger.js` in your terminal.
+  8. This should create a new file named whatever you put to be the outputfile name. Start up your server and navigate to [yourhoust]/api-docs. You should have a newly created page with swagger documentation. Congrats.
+
+### Adding Mongoose
+
+- Mongoose is a commonly used Express middleware for MongoDB. It allows us to create Object Models(Schemas) of the data in our database, connect to MongoDB, and perform queries on the data with built-in functions. One of the selling points of mongoose is that it allows for validation of our data before sending it to our database. This also allows for more control of our error handling.
+- To install mongoose and get started with it:
+  1. Run the command `npm install --save mongoose` in your terminal while in your root directory
+  2. Create some new directories. Models & config should be enough. If you end up creating helper functions, you can consider creating a utils directory.
+  3. Because we will be working with MongoDB through mongoose, we no longer have need for any of the connection code in our db directory, server.js or controllers. We can remove those because they will all be completely rewritten or ignored.
+  4. In our config folder, create a file called `db.config.js`, import dotenv, and lets export our mongodb uri with module.exports.
+  5. To be continued...
